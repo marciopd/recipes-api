@@ -18,9 +18,7 @@ public class WebSecurityConfig {
 
     private static final String[] SWAGGER_UI_RESOURCES = {
             "/v3/api-docs/**",
-            "/configuration/ui/**",
             "/swagger-resources/**",
-            "/configuration/security/**",
             "/swagger-ui.html",
             "/swagger-ui/**"};
 
