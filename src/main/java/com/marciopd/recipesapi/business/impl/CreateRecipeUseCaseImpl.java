@@ -9,6 +9,7 @@ import com.marciopd.recipesapi.domain.CreateRecipeResponse;
 import com.marciopd.recipesapi.persistence.RecipeRepository;
 import com.marciopd.recipesapi.persistence.entity.RecipeEntity;
 import com.marciopd.recipesapi.persistence.entity.TagEntity;
+import com.marciopd.recipesapi.persistence.entity.UserEntity;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,7 @@ public class CreateRecipeUseCaseImpl implements CreateRecipeUseCase {
                 .shortDescription(request.getShortDescription())
                 .instructions(request.getInstructions())
                 .numberServings(request.getNumberServings())
-                .userId(currentRequestUser.getUserId())
+                .user(getCurrentUser())
                 .tags(tags)
                 .build();
 
@@ -50,5 +51,9 @@ public class CreateRecipeUseCaseImpl implements CreateRecipeUseCase {
         return CreateRecipeResponse.builder()
                 .recipeId(savedRecipe.getId())
                 .build();
+    }
+
+    private UserEntity getCurrentUser() {
+        return UserEntity.builder().id(currentRequestUser.getUserId()).build();
     }
 }

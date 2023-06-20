@@ -31,9 +31,9 @@ public class RecipeEntity {
     private Long id;
 
     @NotNull
-    @Min(0)
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     @NotBlank
     @Length(max = 50)
@@ -105,5 +105,13 @@ public class RecipeEntity {
 
     public void addTags(List<TagEntity> tags) {
         this.getTags().addAll(tags);
+    }
+
+    public Long getUserId() {
+        if (this.getUser() == null) {
+            return null;
+        }
+
+        return getUser().getId();
     }
 }

@@ -10,6 +10,7 @@ import com.marciopd.recipesapi.persistence.RecipeRepository;
 import com.marciopd.recipesapi.persistence.entity.IngredientEntity;
 import com.marciopd.recipesapi.persistence.entity.RecipeEntity;
 import com.marciopd.recipesapi.persistence.entity.TagEntity;
+import com.marciopd.recipesapi.persistence.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -69,7 +70,7 @@ class CreateRecipeUseCaseImplTest {
                 .title("Pizza Margherita")
                 .shortDescription("The best pizza margherita you will ever have.")
                 .instructions("After preparing dough, keep Pizza in oven for 10 min.")
-                .userId(1L)
+                .user(UserEntity.builder().id(1L).build())
                 .numberServings(2)
                 .build();
 
