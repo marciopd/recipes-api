@@ -23,7 +23,7 @@ public class RecipesController {
     private final DeleteRecipeUseCase deleteRecipeUseCase;
     private final GetRecipesUseCase getRecipesUseCase;
 
-    @RolesAllowed({"ROLE_CUSTOMER", "ROLE_ADMIN"})
+    @RolesAllowed({"CUSTOMER", "ADMIN"})
     @PostMapping
     public ResponseEntity<CreateRecipeResponse> createRecipe(@Valid @RequestBody CreateRecipeRequest request) {
         CreateRecipeResponse response = createRecipeUseCase.createRecipe(request);
@@ -35,14 +35,14 @@ public class RecipesController {
         return ResponseEntity.ok(getRecipeUseCase.getRecipe(id));
     }
 
-    @RolesAllowed({"ROLE_CUSTOMER", "ROLE_ADMIN"})
+    @RolesAllowed({"CUSTOMER", "ADMIN"})
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateRecipe(@PathVariable @Positive Long id, @Valid @RequestBody UpdateRecipeRequest request) {
         updateRecipeUseCase.updateRecipe(id, request);
         return ResponseEntity.noContent().build();
     }
 
-    @RolesAllowed({"ROLE_CUSTOMER", "ROLE_ADMIN"})
+    @RolesAllowed({"CUSTOMER", "ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecipe(@PathVariable @Positive Long id) {
         deleteRecipeUseCase.deleteRecipe(id);
