@@ -1,0 +1,31 @@
+<configuration>
+    <!-- local environment -->
+    <springProfile name="!prod">
+        <include resource="org/springframework/boot/logging/logback/base.xml"/>
+        <logger name="fontys.sem3.school">
+            <level value="debug"/>
+        </logger>
+        <logger name="org.springframework.web.client">
+            <level value="debug"/>
+        </logger>
+        <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter">
+            <level value="debug" />
+        </logger>
+
+        <root level="info">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <!-- used in prod like environments -->
+    <springProfile name="prod">
+        <!-- Use this appender in order to log in json -->
+        <appender name="JSON_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+         </appender>
+
+         <root level="info">
+             <appender-ref ref="JSON_APPENDER"/>
+         </root>
+     </springProfile>
+ </configuration>
