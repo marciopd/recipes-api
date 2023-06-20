@@ -18,14 +18,7 @@ public class GetRecipeResponse {
     private Integer numberServings;
     private Instant creationTime;
     private List<Ingredient> ingredients;
-    private List<Tag> tags;
-
-    @Builder
-    @Data
-    public static class Tag {
-        private Long id;
-        private String name;
-    }
+    private List<TagResponse> tags;
 
     @Builder
     @Data

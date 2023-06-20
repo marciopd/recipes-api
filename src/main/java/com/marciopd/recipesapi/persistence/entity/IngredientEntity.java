@@ -3,10 +3,7 @@ package com.marciopd.recipesapi.persistence.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -28,5 +25,7 @@ public class IngredientEntity {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "recipe_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private RecipeEntity recipe;
 }

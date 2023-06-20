@@ -19,12 +19,13 @@ public class CreateTagUseCaseImpl implements CreateTagUseCase {
     @Transactional
     @Override
     public CreateTagResponse createTag(final CreateTagRequest request) {
-        if (tagRepository.existsByName(request.getName())) {
+        String nameLowerCase = StringUtils.lowerCase(request.getName());
+        if (tagRepository.existsByName(nameLowerCase)) {
             throw new DuplicatedTagException();
         }
 
         TagEntity newTag = TagEntity.builder()
-                .name(StringUtils.lowerCase(request.getName()))
+                .name(nameLowerCase)
                 .build();
         TagEntity savedTag = tagRepository.save(newTag);
 

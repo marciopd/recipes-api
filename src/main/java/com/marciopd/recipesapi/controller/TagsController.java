@@ -5,6 +5,7 @@ import com.marciopd.recipesapi.business.GetTagsUseCase;
 import com.marciopd.recipesapi.domain.CreateTagRequest;
 import com.marciopd.recipesapi.domain.CreateTagResponse;
 import com.marciopd.recipesapi.domain.GetTagsResponse;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ public class TagsController {
     private final CreateTagUseCase createTagUseCase;
     private final GetTagsUseCase getTagsUseCase;
 
+    @RolesAllowed({"ROLE_ADMIN"})
     @PostMapping
     public ResponseEntity<CreateTagResponse> createTag(@Valid @RequestBody final CreateTagRequest request) {
         final CreateTagResponse response = createTagUseCase.createTag(request);

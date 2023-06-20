@@ -1,6 +1,7 @@
 package com.marciopd.recipesapi.domain;
 
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -9,17 +10,14 @@ import java.util.List;
 import java.util.Set;
 
 @Data
+@Builder
 public class CreateRecipeRequest {
-    @NotNull
-    @Min(0)
-    private Long userId;
-
     @NotBlank
     @Length(min = 3, max = 50)
     private String title;
 
     @NotBlank
-    @Length(min = 20, max = 300)
+    @Length(min = 5, max = 300)
     private String shortDescription;
 
     @NotBlank

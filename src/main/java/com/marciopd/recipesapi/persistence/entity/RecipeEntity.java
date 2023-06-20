@@ -36,17 +36,17 @@ public class RecipeEntity {
     private Long userId;
 
     @NotBlank
-    @Length(min = 3, max = 50)
+    @Length(max = 50)
     @Column(name = "title")
     private String title;
 
     @NotBlank
-    @Length(min = 20, max = 300)
+    @Length(max = 300)
     @Column(name = "short_description")
     private String shortDescription;
 
     @NotBlank
-    @Length(min = 20, max = 5000)
+    @Length(max = 5000)
     @Column(name = "instructions")
     private String instructions;
 

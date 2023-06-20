@@ -2,6 +2,7 @@ package com.marciopd.recipesapi.controller;
 
 import com.marciopd.recipesapi.business.*;
 import com.marciopd.recipesapi.domain.*;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class RecipesController {
     private final DeleteRecipeUseCase deleteRecipeUseCase;
     private final GetRecipesUseCase getRecipesUseCase;
 
+    @RolesAllowed({"ROLE_CUSTOMER", "ROLE_ADMIN"})
     @PostMapping
     public ResponseEntity<CreateRecipeResponse> createRecipe(@Valid @RequestBody CreateRecipeRequest request) {
         CreateRecipeResponse response = createRecipeUseCase.createRecipe(request);
@@ -33,12 +35,14 @@ public class RecipesController {
         return ResponseEntity.ok(getRecipeUseCase.getRecipe(id));
     }
 
+    @RolesAllowed({"ROLE_CUSTOMER", "ROLE_ADMIN"})
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateRecipe(@PathVariable @Positive Long id, @Valid @RequestBody UpdateRecipeRequest request) {
         updateRecipeUseCase.updateRecipe(id, request);
         return ResponseEntity.noContent().build();
     }
 
+    @RolesAllowed({"ROLE_CUSTOMER", "ROLE_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecipe(@PathVariable @Positive Long id) {
         deleteRecipeUseCase.deleteRecipe(id);
@@ -52,14 +56,15 @@ public class RecipesController {
                                                          @RequestParam(required = false) List<Long> withTag,
                                                          @RequestParam(required = false) List<Long> withoutTag,
                                                          @RequestParam(required = false) String instruction) {
-        GetRecipesResponse response = getRecipesUseCase.getRecipes(GetRecipesRequest.builder()
+        GetRecipesRequest request = GetRecipesRequest.builder()
                 .withIngredients(with)
                 .withoutIngredients(without)
                 .withTags(withTag)
                 .withoutTags(withoutTag)
                 .numberServings(numberServings)
                 .instruction(instruction)
-                .build());
+                .build();
+        GetRecipesResponse response = getRecipesUseCase.getRecipes(request);
         return ResponseEntity.ok(response);
     }
 }

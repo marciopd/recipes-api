@@ -1,5 +1,6 @@
-package com.marciopd.recipesapi.business;
+package com.marciopd.recipesapi.business.impl;
 
+import com.marciopd.recipesapi.business.GetRecipesUseCase;
 import com.marciopd.recipesapi.domain.GetRecipesRequest;
 import com.marciopd.recipesapi.domain.GetRecipesResponse;
 import com.marciopd.recipesapi.persistence.RecipeRepository;

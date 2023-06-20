@@ -1,6 +1,7 @@
 package com.marciopd.recipesapi.business.impl;
 
 import com.marciopd.recipesapi.business.GetTagsUseCase;
+import com.marciopd.recipesapi.business.TagEntityConverter;
 import com.marciopd.recipesapi.domain.GetTagsResponse;
 import com.marciopd.recipesapi.persistence.TagRepository;
 import com.marciopd.recipesapi.persistence.entity.TagEntity;
@@ -14,20 +15,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GetTagsUseCaseImpl implements GetTagsUseCase {
     private final TagRepository tagRepository;
+    private final TagEntityConverter tagEntityConverter;
 
     @Transactional
     @Override
     public GetTagsResponse getTags() {
         final List<TagEntity> tags = tagRepository.findByOrderByNameAsc();
-        final List<GetTagsResponse.Tag> convertToResponse = tags.stream()
-                .map(tagEntity -> GetTagsResponse.Tag.builder()
-                        .id(tagEntity.getId())
-                        .name(tagEntity.getName())
-                        .build())
-                .toList();
 
         return GetTagsResponse.builder()
-                .tags(convertToResponse)
+                .tags(tagEntityConverter.toResponse(tags))
                 .build();
     }
 }

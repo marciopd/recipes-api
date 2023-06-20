@@ -1,6 +1,7 @@
 package com.marciopd.recipesapi.business.impl;
 
 import com.marciopd.recipesapi.business.GetRecipeUseCase;
+import com.marciopd.recipesapi.business.TagEntityConverter;
 import com.marciopd.recipesapi.business.exception.RecipeNotFoundException;
 import com.marciopd.recipesapi.domain.GetRecipeResponse;
 import com.marciopd.recipesapi.persistence.RecipeRepository;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class GetRecipeUseCaseImpl implements GetRecipeUseCase {
     private final RecipeRepository recipeRepository;
+    private final TagEntityConverter tagEntityConverter;
 
     @Transactional
     @Override
@@ -30,7 +32,7 @@ public class GetRecipeUseCaseImpl implements GetRecipeUseCase {
                 .instructions(recipeEntity.getInstructions())
                 .userId(recipeEntity.getUserId())
                 .numberServings(recipeEntity.getNumberServings())
-                .tags(convertTags(recipeEntity))
+                .tags(tagEntityConverter.toResponse(recipeEntity.getTags()))
                 .ingredients(convertIngredients(recipeEntity))
                 .creationTime(recipeEntity.getCreationTime())
                 .build();
@@ -40,14 +42,5 @@ public class GetRecipeUseCaseImpl implements GetRecipeUseCase {
         return recipeEntity.getIngredients().stream().map(ingredientEntity -> GetRecipeResponse.Ingredient.builder()
                 .text(ingredientEntity.getText())
                 .build()).toList();
-    }
-
-    private static List<GetRecipeResponse.Tag> convertTags(RecipeEntity recipeEntity) {
-        return recipeEntity.getTags().stream()
-                .map(tagEntity -> GetRecipeResponse.Tag.builder()
-                        .id(tagEntity.getId())
-                        .name(tagEntity.getName())
-                        .build())
-                .toList();
     }
 }

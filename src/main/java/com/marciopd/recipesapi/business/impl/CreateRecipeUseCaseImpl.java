@@ -2,7 +2,8 @@ package com.marciopd.recipesapi.business.impl;
 
 import com.marciopd.recipesapi.business.CreateRecipeUseCase;
 import com.marciopd.recipesapi.business.TagEntityConverter;
-import com.marciopd.recipesapi.business.exception.DuplicatedRecipeException;
+import com.marciopd.recipesapi.business.UniqueRecipeValidator;
+import com.marciopd.recipesapi.configuration.security.token.AccessToken;
 import com.marciopd.recipesapi.domain.CreateRecipeRequest;
 import com.marciopd.recipesapi.domain.CreateRecipeResponse;
 import com.marciopd.recipesapi.persistence.RecipeRepository;
@@ -21,24 +22,24 @@ import java.util.List;
 public class CreateRecipeUseCaseImpl implements CreateRecipeUseCase {
 
     private final RecipeRepository recipeRepository;
-
+    private final UniqueRecipeValidator uniqueRecipeValidator;
     private final TagEntityConverter tagEntityConverter;
+    private final AccessToken currentRequestUser;
 
     @Transactional
     @Override
     public CreateRecipeResponse createRecipe(final CreateRecipeRequest request) {
-        if (recipeRepository.existsByTitle(request.getTitle())) {
-            throw new DuplicatedRecipeException();
-        }
 
-        List<TagEntity> tags = tagEntityConverter.convertToEntity(request.getTagIds());
+        uniqueRecipeValidator.validate(request.getTitle());
+
+        List<TagEntity> tags = tagEntityConverter.toEntity(request.getTagIds());
 
         RecipeEntity newRecipe = RecipeEntity.builder()
                 .title(request.getTitle())
                 .shortDescription(request.getShortDescription())
                 .instructions(request.getInstructions())
                 .numberServings(request.getNumberServings())
-                .userId(request.getUserId())
+                .userId(currentRequestUser.getUserId())
                 .tags(tags)
                 .build();
 

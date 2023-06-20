@@ -1,3 +1,22 @@
+CREATE TABLE "user"
+(
+    id       int          NOT NULL AUTO_INCREMENT,
+    username varchar(20)  NOT NULL,
+    password varchar(100) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (username)
+);
+
+CREATE TABLE user_role
+(
+    id        int         NOT NULL AUTO_INCREMENT,
+    user_id   int         NOT NULL,
+    role_name varchar(50) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (user_id, role_name),
+    FOREIGN KEY (user_id) REFERENCES "user" (id)
+);
+
 CREATE TABLE recipe
 (
     id                int          NOT NULL AUTO_INCREMENT,
@@ -8,7 +27,8 @@ CREATE TABLE recipe
     creation_time     TIMESTAMP    NOT NULL,
     user_id           int          NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE (title)
+    UNIQUE (title),
+    FOREIGN KEY (user_id) REFERENCES "user" (id)
 );
 
 CREATE TABLE tag
@@ -41,9 +61,6 @@ CREATE TABLE recipe_ingredient
 );
 
 
-insert into tag (name)
-values ('vegetarian');
-insert into tag (name)
-values ('vegan');
-insert into tag (name)
-values ('spicy');
+insert into tag (name) values ('vegetarian');
+insert into tag (name) values ('vegan');
+insert into tag (name) values ('spicy');

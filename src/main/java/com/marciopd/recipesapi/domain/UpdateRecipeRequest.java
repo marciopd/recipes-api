@@ -17,7 +17,7 @@ public class UpdateRecipeRequest {
     private String title;
 
     @NotBlank
-    @Length(min = 20, max = 300)
+    @Length(min = 5, max = 300)
     private String shortDescription;
 
     @NotBlank
