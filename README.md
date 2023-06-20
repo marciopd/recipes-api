@@ -56,7 +56,7 @@ Typical 3 principal layers application:
 2) `business`: business logic implementation
 3) `persistence`: data access implementation
 
-There is a `domain` witch is shared by controller and business layer. 
+There is a `domain` which is shared by controller and business layer. 
 Basically requests and response objects to save boilerplate code.
 
 Persistence entities are not allowed to leave the business layer.
