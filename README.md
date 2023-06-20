@@ -41,7 +41,7 @@ The API is not fully implemented according to my plans, but allows to:
     - Use the access token obtained in the previous step for that
     - It's possible to enter the access token in Swagger by clicking on the "Authorize" button. 
       - The token will be sent as a bearer token in the subsequent requests.
-      - User's can't change recipes of other users, unless they are admins
+      - Users can't change recipes of other users, unless they are admins
 3) Get or search for `recipes` (public endpoints)
 4) Get all `tags`
     - vegetarian is an example of tag
