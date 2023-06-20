@@ -1,7 +1,6 @@
 package com.marciopd.recipesapi.configuration.security;
 
 import com.marciopd.recipesapi.configuration.security.auth.AuthenticationRequestFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,14 +24,10 @@ public class WebSecurityConfig {
             "/swagger-ui.html",
             "/swagger-ui/**"};
 
-    @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
-
-    @Autowired
-    private AuthenticationRequestFilter authenticationRequestFilter;
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity,
+                                           AuthenticationEntryPoint authenticationEntryPoint,
+                                           AuthenticationRequestFilter authenticationRequestFilter) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
