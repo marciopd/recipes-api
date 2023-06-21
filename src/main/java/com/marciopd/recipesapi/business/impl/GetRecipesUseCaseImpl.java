@@ -5,6 +5,7 @@ import com.marciopd.recipesapi.domain.GetRecipesRequest;
 import com.marciopd.recipesapi.domain.GetRecipesResponse;
 import com.marciopd.recipesapi.persistence.RecipeRepository;
 import com.marciopd.recipesapi.persistence.entity.RecipeEntity;
+import com.marciopd.recipesapi.persistence.entity.RecipeEntity_;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
@@ -20,7 +21,7 @@ import static com.marciopd.recipesapi.persistence.RecipeRepository.Spec.*;
 @Service
 @RequiredArgsConstructor
 public class GetRecipesUseCaseImpl implements GetRecipesUseCase {
-    private static final Sort SORT_BY_TITLE = Sort.by("title");
+    static final Sort SORT_BY_TITLE = Sort.by(RecipeEntity_.TITLE);
 
     private final RecipeRepository recipeRepository;
 

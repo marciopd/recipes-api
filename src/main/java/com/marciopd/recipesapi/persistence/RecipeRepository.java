@@ -1,8 +1,6 @@
 package com.marciopd.recipesapi.persistence;
 
-import com.marciopd.recipesapi.persistence.entity.IngredientEntity;
-import com.marciopd.recipesapi.persistence.entity.RecipeEntity;
-import com.marciopd.recipesapi.persistence.entity.RecipeTagEntity;
+import com.marciopd.recipesapi.persistence.entity.*;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,12 +14,15 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long>, Jpa
         static Specification<RecipeEntity> containsInstruction(String instruction) {
             return (root, query, criteriaBuilder) -> criteriaBuilder
                     .like(
-                            criteriaBuilder.lower(root.get("instructions")),
+                            criteriaBuilder.lower(root.get(RecipeEntity_.instructions)),
                             "%" + instruction.toLowerCase().trim() + "%");
         }
 
         static Specification<RecipeEntity> isNumberServingsEqualsTo(int numberServings) {
-            return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("numberServings"), numberServings);
+            return (root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(
+                            root.get(RecipeEntity_.numberServings),
+                            numberServings);
         }
 
         static Specification<RecipeEntity> withIngredient(String ingredient) {
@@ -52,9 +53,9 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long>, Jpa
             existsIngredientSubQuery
                     .select(criteriaBuilder.literal(1))
                     .where(
-                            criteriaBuilder.equal(ingredientRoot.get("recipe"), root),
+                            criteriaBuilder.equal(ingredientRoot.get(IngredientEntity_.recipe), root),
                             criteriaBuilder.like(
-                                    criteriaBuilder.lower(ingredientRoot.get("text")),
+                                    criteriaBuilder.lower(ingredientRoot.get(IngredientEntity_.text)),
                                     "%" + ingredient.toLowerCase().trim() + "%")
                     );
             return criteriaBuilder.exists(existsIngredientSubQuery);
@@ -69,8 +70,10 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long>, Jpa
             existsTagSubQuery
                     .select(criteriaBuilder.literal(1))
                     .where(
-                            criteriaBuilder.equal(recipeTagRoot.get("recipe"), root),
-                            criteriaBuilder.equal(recipeTagRoot.get("tag").get("id"), tagId)
+                            criteriaBuilder.equal(recipeTagRoot.get(RecipeTagEntity_.recipe), root),
+                            criteriaBuilder.equal(
+                                    recipeTagRoot.get(RecipeTagEntity_.tag).get(TagEntity_.id),
+                                    tagId)
                     );
             return criteriaBuilder.exists(existsTagSubQuery);
         }
