@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface TagRepository extends JpaRepository<TagEntity, Long> {
-    boolean existsByName(String name);
+    boolean existsByNameIgnoreCase(String name);
 
     List<TagEntity> findByOrderByNameAsc();
 

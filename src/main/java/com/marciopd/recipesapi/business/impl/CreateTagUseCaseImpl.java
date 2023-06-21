@@ -8,7 +8,6 @@ import com.marciopd.recipesapi.persistence.TagRepository;
 import com.marciopd.recipesapi.persistence.entity.TagEntity;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,13 +18,13 @@ public class CreateTagUseCaseImpl implements CreateTagUseCase {
     @Transactional
     @Override
     public CreateTagResponse createTag(final CreateTagRequest request) {
-        String nameLowerCase = StringUtils.lowerCase(request.getName());
-        if (tagRepository.existsByName(nameLowerCase)) {
+        final String name = request.getName().trim();
+        if (tagRepository.existsByNameIgnoreCase(name)) {
             throw new DuplicatedTagException();
         }
 
         TagEntity newTag = TagEntity.builder()
-                .name(nameLowerCase)
+                .name(name)
                 .build();
         TagEntity savedTag = tagRepository.save(newTag);
 
