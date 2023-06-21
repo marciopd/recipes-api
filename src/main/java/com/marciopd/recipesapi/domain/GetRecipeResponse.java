@@ -2,6 +2,7 @@ package com.marciopd.recipesapi.domain;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.Instant;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Builder
 @Getter
+@EqualsAndHashCode
 public class GetRecipeResponse {
     private Long id;
     private Long userId;
