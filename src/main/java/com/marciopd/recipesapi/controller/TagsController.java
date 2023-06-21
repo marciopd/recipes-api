@@ -20,7 +20,7 @@ public class TagsController {
     private final CreateTagUseCase createTagUseCase;
     private final GetTagsUseCase getTagsUseCase;
 
-    @RolesAllowed({"ROLE_ADMIN"})
+    @RolesAllowed({"ADMIN"})
     @PostMapping
     public ResponseEntity<CreateTagResponse> createTag(@Valid @RequestBody final CreateTagRequest request) {
         final CreateTagResponse response = createTagUseCase.createTag(request);
