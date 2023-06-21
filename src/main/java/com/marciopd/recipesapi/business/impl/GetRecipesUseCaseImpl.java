@@ -63,7 +63,7 @@ public class GetRecipesUseCaseImpl implements GetRecipesUseCase {
 
     private void addInstructionsSpecification(GetRecipesRequest request, List<Specification<RecipeEntity>> specifications) {
         if (!StringUtils.isBlank(request.getInstruction())) {
-            specifications.add(containsInstruction(request.getInstruction().toLowerCase().trim()));
+            specifications.add(containsInstruction(request.getInstruction()));
         }
     }
 
@@ -77,14 +77,18 @@ public class GetRecipesUseCaseImpl implements GetRecipesUseCase {
     private static void addWithoutIngredientsSpecifications(GetRecipesRequest request,
                                                             List<Specification<RecipeEntity>> specifications) {
         if (!CollectionUtils.isEmpty(request.getWithoutIngredients())) {
-            request.getWithoutIngredients().forEach(ingredient -> specifications.add(withoutIngredient(ingredient)));
+            request.getWithoutIngredients().stream()
+                    .filter(StringUtils::isNotBlank)
+                    .forEach(ingredient -> specifications.add(withoutIngredient(ingredient)));
         }
     }
 
     private static void addWithIngredientsSpecifications(GetRecipesRequest request,
                                                          List<Specification<RecipeEntity>> specifications) {
         if (!CollectionUtils.isEmpty(request.getWithIngredients())) {
-            request.getWithIngredients().forEach(ingredient -> specifications.add(withIngredient(ingredient)));
+            request.getWithIngredients().stream()
+                    .filter(StringUtils::isNotBlank)
+                    .forEach(ingredient -> specifications.add(withIngredient(ingredient)));
         }
     }
 

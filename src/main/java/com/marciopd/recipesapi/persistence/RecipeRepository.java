@@ -9,11 +9,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long>, JpaSpecificationExecutor<RecipeEntity> {
-    boolean existsByTitle(String title);
+
+    boolean existsByTitleIgnoreCase(String title);
 
     interface Spec {
         static Specification<RecipeEntity> containsInstruction(String instruction) {
-            return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("instructions"), "%" + instruction + "%");
+            return (root, query, criteriaBuilder) -> criteriaBuilder
+                    .like(
+                            criteriaBuilder.lower(root.get("instructions")),
+                            "%" + instruction.toLowerCase().trim() + "%");
         }
 
         static Specification<RecipeEntity> isNumberServingsEqualsTo(int numberServings) {
@@ -49,7 +53,9 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long>, Jpa
                     .select(criteriaBuilder.literal(1))
                     .where(
                             criteriaBuilder.equal(ingredientRoot.get("recipe"), root),
-                            criteriaBuilder.like(ingredientRoot.get("text"), "%" + ingredient + "%")
+                            criteriaBuilder.like(
+                                    criteriaBuilder.lower(ingredientRoot.get("text")),
+                                    "%" + ingredient.toLowerCase().trim() + "%")
                     );
             return criteriaBuilder.exists(existsIngredientSubQuery);
         }
