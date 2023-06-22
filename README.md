@@ -1,5 +1,11 @@
 # recipes-api
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=marciopd_recipes-api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=marciopd_recipes-api)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=marciopd_recipes-api&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=marciopd_recipes-api)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=marciopd_recipes-api&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=marciopd_recipes-api)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=marciopd_recipes-api&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=marciopd_recipes-api)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=marciopd_recipes-api&metric=coverage)](https://sonarcloud.io/summary/new_code?id=marciopd_recipes-api)
+
 This is a sample application which exposes a RESTful API for managing and searching recipes.
 
 The data is persisted in a H2 in-memory database.
