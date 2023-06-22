@@ -82,7 +82,7 @@ class GetRecipeUseCaseImplTest {
                 .title("Title")
                 .shortDescription("Short description")
                 .instructions("Instructions")
-                .userId(1L)
+                .user(GetRecipeResponse.User.builder().id(1L).username("username").build())
                 .numberServings(2)
                 .tags(tagResponses)
                 .ingredients(List.of(

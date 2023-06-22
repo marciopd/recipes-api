@@ -114,4 +114,11 @@ public class RecipeEntity {
 
         return getUser().getId();
     }
+
+    public String getUsername() {
+        if (this.getUser() == null) {
+            return null;
+        }
+        return getUser().getUsername();
+    }
 }
