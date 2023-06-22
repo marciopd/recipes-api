@@ -215,7 +215,7 @@ class RecipesControllerTest {
                 .id(10L)
                 .numberServings(5)
                 .title("Lasagne Supreme")
-                .userId(10L)
+                .user(GetRecipeResponse.User.builder().id(10L).username("maverick").build())
                 .instructions("Follow the instructions carefully.")
                 .shortDescription("Fast and good recipe!")
                 .creationTime(Instant.parse("2007-12-03T10:15:30.00Z"))
@@ -231,7 +231,7 @@ class RecipesControllerTest {
                 .andExpect(content().json("""
                         {
                         "id":10,
-                        "userId":10,
+                        "user": {"id": 10, "username": "maverick"},
                         "title":"Lasagne Supreme",
                         "shortDescription":"Fast and good recipe!",
                         "instructions":"Follow the instructions carefully.",

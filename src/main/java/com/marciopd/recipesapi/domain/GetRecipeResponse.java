@@ -13,7 +13,7 @@ import java.util.List;
 @EqualsAndHashCode
 public class GetRecipeResponse {
     private Long id;
-    private Long userId;
+    private User user;
     private String title;
     private String shortDescription;
     private String instructions;
@@ -26,5 +26,12 @@ public class GetRecipeResponse {
     @Data
     public static class Ingredient {
         private String text;
+    }
+
+    @Builder
+    @Data
+    public static class User {
+        private Long id;
+        private String username;
     }
 }
