@@ -14,7 +14,7 @@ public class UniqueRecipeValidatorImpl implements UniqueRecipeValidator {
 
     @Override
     public void validate(String title) throws DuplicatedRecipeException {
-        if (recipeRepository.existsByTitle(title)) {
+        if (recipeRepository.existsByTitleIgnoreCase(title)) {
             throw new DuplicatedRecipeException();
         }
     }

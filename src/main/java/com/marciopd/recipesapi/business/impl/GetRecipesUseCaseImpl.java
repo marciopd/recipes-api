@@ -5,6 +5,7 @@ import com.marciopd.recipesapi.domain.GetRecipesRequest;
 import com.marciopd.recipesapi.domain.GetRecipesResponse;
 import com.marciopd.recipesapi.persistence.RecipeRepository;
 import com.marciopd.recipesapi.persistence.entity.RecipeEntity;
+import com.marciopd.recipesapi.persistence.entity.RecipeEntity_;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
@@ -20,7 +21,7 @@ import static com.marciopd.recipesapi.persistence.RecipeRepository.Spec.*;
 @Service
 @RequiredArgsConstructor
 public class GetRecipesUseCaseImpl implements GetRecipesUseCase {
-    private static final Sort SORT_BY_TITLE = Sort.by("title");
+    static final Sort SORT_BY_TITLE = Sort.by(RecipeEntity_.TITLE);
 
     private final RecipeRepository recipeRepository;
 
@@ -63,7 +64,7 @@ public class GetRecipesUseCaseImpl implements GetRecipesUseCase {
 
     private void addInstructionsSpecification(GetRecipesRequest request, List<Specification<RecipeEntity>> specifications) {
         if (!StringUtils.isBlank(request.getInstruction())) {
-            specifications.add(containsInstruction(request.getInstruction().toLowerCase().trim()));
+            specifications.add(containsInstruction(request.getInstruction()));
         }
     }
 
@@ -77,14 +78,18 @@ public class GetRecipesUseCaseImpl implements GetRecipesUseCase {
     private static void addWithoutIngredientsSpecifications(GetRecipesRequest request,
                                                             List<Specification<RecipeEntity>> specifications) {
         if (!CollectionUtils.isEmpty(request.getWithoutIngredients())) {
-            request.getWithoutIngredients().forEach(ingredient -> specifications.add(withoutIngredient(ingredient)));
+            request.getWithoutIngredients().stream()
+                    .filter(StringUtils::isNotBlank)
+                    .forEach(ingredient -> specifications.add(withoutIngredient(ingredient)));
         }
     }
 
     private static void addWithIngredientsSpecifications(GetRecipesRequest request,
                                                          List<Specification<RecipeEntity>> specifications) {
         if (!CollectionUtils.isEmpty(request.getWithIngredients())) {
-            request.getWithIngredients().forEach(ingredient -> specifications.add(withIngredient(ingredient)));
+            request.getWithIngredients().stream()
+                    .filter(StringUtils::isNotBlank)
+                    .forEach(ingredient -> specifications.add(withIngredient(ingredient)));
         }
     }
 
