@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,8 +26,8 @@ public class UpdateRecipeUseCaseImpl implements UpdateRecipeUseCase {
     @Transactional
     @Override
     public void updateRecipe(Long recipeId, UpdateRecipeRequest request) {
-        Optional<RecipeEntity> optionalRecipe = recipeRepository.findById(recipeId);
-        RecipeEntity recipeEntity = optionalRecipe.orElseThrow(RecipeNotFoundException::new);
+        RecipeEntity recipeEntity = recipeRepository.findById(recipeId)
+                .orElseThrow(RecipeNotFoundException::new);
 
         recipeDataChangeUserValidator.validateIfCurrentUserCanChangeRecipe(recipeEntity);
 
