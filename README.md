@@ -12,7 +12,7 @@ The data is persisted in a H2 in-memory database.
 
 ## Requirements
 - JDK 17 installation
-- Gradle 7.6.* (build tool) installation
+- Gradle 8.1.* (build tool) installation
 
 ## Key frameworks and libraries used:
 - Spring Boot 3
